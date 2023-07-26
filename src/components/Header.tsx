@@ -8,7 +8,7 @@ interface LinkOptions {
   path: string;
 }
 const links: LinkOptions[] = [
-  // { id: 1, title: "Chat", path: "/chat" },
+  { id: 1, title: "Chat", path: "/chat" },
   { id: 2, title: "About", path: "/about" },
 ];
 

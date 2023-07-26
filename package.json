@@ -11,8 +11,11 @@
   "dependencies": {
     "next": "13.4.12",
     "next-auth": "^4.22.3",
+    "next-connect": "^1.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "socket.io": "^4.7.1",
+    "socket.io-client": "^4.7.1"
   },
   "devDependencies": {
     "@types/node": "20.4.4",
