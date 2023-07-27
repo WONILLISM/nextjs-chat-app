@@ -1,17 +1,24 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+
+import { signIn, useSession } from "next-auth/react";
+
 import React from "react";
 
 const Login = () => {
   const session = useSession();
   console.log(session);
+
+  const handleSignInButtonClick = () => {
+    signIn("google", { callbackUrl: "/chat" });
+  };
+
   return (
-    <div>
-      <button className="bg-blue-200" onClick={() => signIn("google")}>
-        signin with Google
-      </button>
-      <button className="bg-red-200" onClick={() => signOut()}>
-        sign out
+    <div className="pt-8">
+      <button
+        className="rounded-2xl bg-blue-700 text-white py-4 px-8"
+        onClick={handleSignInButtonClick}
+      >
+        Sign In with Google
       </button>
     </div>
   );

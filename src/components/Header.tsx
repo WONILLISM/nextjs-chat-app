@@ -14,16 +14,18 @@ const links: LinkOptions[] = [
 
 const Header = () => {
   return (
-    <header>
-      <Link href="/">Logo</Link>
+    <header className="w-full h-24 fixed bg-purple-950 bg-opacity-50">
+      <div className="h-full px-8 flex items-center">
+        <Link href="/">Logo</Link>
 
-      <nav>
-        {links.map((link) => (
-          <Link key={link.id} href={link.path}>
-            {link.title}
-          </Link>
-        ))}
-      </nav>
+        <nav className="ml-auto flex">
+          {links.map((link) => (
+            <Link key={link.id} className="p-2" href={link.path}>
+              {link.title}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 };
