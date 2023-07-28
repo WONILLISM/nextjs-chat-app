@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 
 import "./globals.css";
 import AuthProvider from "@/components/provider/AuthProvider";
+import Header from "@/components/Header";
 
-const inter = Inter({ subsets: ["latin"] });
+const notoSansKR = Noto_Sans_KR({ weight: ["300", "500"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "chat-app",
@@ -18,8 +19,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={notoSansKR.className}>
         <AuthProvider>
+          {/* <Header /> */}
           <main>{children}</main>
         </AuthProvider>
       </body>

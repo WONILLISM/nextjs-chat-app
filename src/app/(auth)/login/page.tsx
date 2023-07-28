@@ -1,8 +1,10 @@
 "use client";
 
+import React from "react";
+import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 
-import React from "react";
+import googleLogo from "../../../../public/google_logo.png";
 
 const Login = () => {
   const session = useSession();
@@ -13,12 +15,18 @@ const Login = () => {
   };
 
   return (
-    <div className="pt-8">
+    <div>
       <button
-        className="rounded-2xl bg-blue-700 text-white py-4 px-8"
+        className="flex items-center px-4 py-2 bg-white rounded-lg "
         onClick={handleSignInButtonClick}
       >
-        Sign In with Google
+        <Image
+          src={googleLogo}
+          alt="google logo"
+          objectFit="contain"
+          width={24}
+        />
+        <div className="pl-2">Sign In with Google</div>
       </button>
     </div>
   );

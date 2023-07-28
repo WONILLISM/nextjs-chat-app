@@ -1,6 +1,10 @@
+"use client";
+
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import React from "react";
+import Loading from "./Loading";
 
 interface LinkOptions {
   id: number;
@@ -13,6 +17,10 @@ const links: LinkOptions[] = [
 ];
 
 const Header = () => {
+  const { status } = useSession();
+
+  if (status === "loading") return <Loading />;
+
   return (
     <header className="w-full h-24 fixed bg-purple-950 bg-opacity-50">
       <div className="h-full px-8 flex items-center">
@@ -24,6 +32,13 @@ const Header = () => {
               {link.title}
             </Link>
           ))}
+          {status === "unauthenticated" ? (
+            <Link href="/login" className="p-2">
+              Login
+            </Link>
+          ) : (
+            <button className="border border-black">Logout</button>
+          )}
         </nav>
       </div>
     </header>
