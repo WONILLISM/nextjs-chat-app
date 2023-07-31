@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 import React from "react";
@@ -22,11 +22,11 @@ const Header = () => {
   if (status === "loading") return <Loading />;
 
   return (
-    <header className="w-full h-24 fixed bg-purple-950 bg-opacity-50">
-      <div className="h-full px-8 flex items-center">
+    <header className="fixed w-full h-24 bg-opacity-50 bg-purple-950">
+      <div className="flex items-center h-full px-8">
         <Link href="/">Logo</Link>
 
-        <nav className="ml-auto flex">
+        <nav className="flex ml-auto">
           {links.map((link) => (
             <Link key={link.id} className="p-2" href={link.path}>
               {link.title}
@@ -37,7 +37,9 @@ const Header = () => {
               Login
             </Link>
           ) : (
-            <button className="border border-black">Logout</button>
+            <button className="border border-black" onClick={() => signOut()}>
+              Logout
+            </button>
           )}
         </nav>
       </div>
