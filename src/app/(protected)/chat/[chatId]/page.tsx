@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { socket } from "../socket";
 import { ChatMessage } from "@/types/chat";
+import useUser from "@/hooks/useUser";
 
 export const sendApiSocketChat = async (chatMessage: ChatMessage) => {
   try {
@@ -19,10 +20,18 @@ export const sendApiSocketChat = async (chatMessage: ChatMessage) => {
 };
 
 const Room = () => {
+  const { user, status } = useUser();
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const enterChatRoom = async () => {
+    await sendApiSocketChat({
+      username: "CHAT BOT",
+      message: `${user.name} entered chat room.`,
+    });
+  };
 
   const sendMessage = async (chat: ChatMessage) => {
     const response = await sendApiSocketChat(chat);
@@ -40,6 +49,21 @@ const Room = () => {
       socket.off("connect");
     };
   }, [setIsConnected]);
+
+  useEffect(() => {
+    if (isConnected) {
+      enterChatRoom();
+    }
+  }, [isConnected]);
+
+  useEffect(() => {
+    socket.on("join_room", (message: ChatMessage) => {
+      console.log(`${message.username} ENTERED CHAT ROOM.`);
+
+      messages.push(message);
+      setMessages([...messages]);
+    });
+  }, [setMessages]);
 
   useEffect(() => {
     socket.on("message", (message: ChatMessage) => {
@@ -73,7 +97,7 @@ const Room = () => {
 
               if (inputRef.current) {
                 sendMessage({
-                  username: "wopark",
+                  username: user.name,
                   message: inputRef.current.value,
                 });
               }

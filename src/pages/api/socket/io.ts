@@ -27,6 +27,11 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       console.log(`A client connected. ID: ${socket.id}`);
 
       // Event handler for receiving messages from the client
+      socket.on("join_room", (data) => {
+        console.log("Received message:", data.message);
+      });
+
+      // Event handler for receiving messages from the client
       socket.on("message", (data) => {
         console.log("Received message:", data.message);
       });
