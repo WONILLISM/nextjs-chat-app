@@ -2,10 +2,9 @@
 import React, { ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import useUser from "@/hooks/useUser";
 
 const ProtectedLayout = ({ children }: { children: ReactNode }) => {
-  const { status } = useUser();
+  const { status } = useSession();
   const router = useRouter();
 
   if (status === "loading") {

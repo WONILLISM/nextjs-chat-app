@@ -1,9 +1,10 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { socket } from "../socket";
 import { ChatMessage } from "@/types/chat";
-import useUser from "@/hooks/useUser";
+import { useSession } from "next-auth/react";
 
 export const sendApiSocketChat = async (chatMessage: ChatMessage) => {
   try {
@@ -20,7 +21,7 @@ export const sendApiSocketChat = async (chatMessage: ChatMessage) => {
 };
 
 const Room = () => {
-  const { user, status } = useUser();
+  const { data } = useSession();
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
@@ -29,7 +30,7 @@ const Room = () => {
   const enterChatRoom = async () => {
     await sendApiSocketChat({
       username: "CHAT BOT",
-      message: `${user.name} entered chat room.`,
+      message: `${data?.user?.name} entered chat room.`,
     });
   };
 
@@ -97,7 +98,7 @@ const Room = () => {
 
               if (inputRef.current) {
                 sendMessage({
-                  username: user.name,
+                  username: data?.user?.name || "",
                   message: inputRef.current.value,
                 });
               }
