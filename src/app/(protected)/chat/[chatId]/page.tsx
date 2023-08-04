@@ -26,6 +26,7 @@ const Room = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
+  const formRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const enterChatRoom = async () => {
@@ -84,7 +85,7 @@ const Room = () => {
   }, [setMessages]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen max-w-[640px] min-w-[360px]">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] max-w-[640px] min-w-[360px]">
       <div className="sticky top-0 w-full py-4 text-black bg-blue-300 border border-blue-600 rounded-lg bg-opacity-30">
         <h1 className="text-2xl font-semibold text-center">Chat Room</h1>
       </div>
@@ -113,6 +114,7 @@ const Room = () => {
       </div>
       <div className="w-full px-4 py-2 mt-auto bg-blue-300 border border-blue-600 rounded-lg bg-opacity-30">
         <form
+          ref={formRef}
           onSubmit={(e) => {
             e.preventDefault();
             if (textareaRef.current && !!textareaRef.current.value) {
@@ -130,6 +132,12 @@ const Room = () => {
               ref={textareaRef}
               rows={1}
               className="block w-full p-2 text-sm text-gray-900 bg-white border border-gray-300 rounded-lg resize-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onKeyDown={(e) => {
+                if (e.keyCode == 13 && e.shiftKey == false) {
+                  e.preventDefault();
+                  formRef.current?.requestSubmit();
+                }
+              }}
             />
 
             <button
