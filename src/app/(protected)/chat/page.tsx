@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 import TextField from "@/components/TextField";
 
@@ -10,20 +8,13 @@ import {
   MdModeEdit as MdModeEditIcon,
   MdCheck as MdCheckIcon,
 } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const Chat = () => {
   const router = useRouter();
 
-  const { data, status } = useSession();
-
-  const [modifyUsername, setModifyUsername] = useState<boolean>(false);
+  const [modifyUsername, setModifyUsername] = useState<boolean>(true);
   const [username, setUsername] = useState<string>("");
-
-  useEffect(() => {
-    if (data && data.user) {
-      setUsername(data.user.name!);
-    }
-  }, [data]);
 
   return (
     <>
@@ -56,7 +47,7 @@ const Chat = () => {
           </>
         ) : (
           <>
-            <div>Hi, {data?.user?.name}!</div>
+            <div>Hi, {username}!</div>
             <button
               type="button"
               onClick={() => {
@@ -73,7 +64,9 @@ const Chat = () => {
         className="px-4 py-2 text-white bg-blue-700 rounded-lg shadow-md disabled:bg-gray-400"
         disabled={modifyUsername}
         onClick={() => {
-          router.push(`/chat/1`);
+          if (!!username) {
+            router.push(`/chat/1?username=${username}`);
+          }
         }}
       >
         Enter

@@ -4,15 +4,6 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-/**
- * position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  color: $gray;
- */
-
 const TextField = ({ label, ...inputElement }: TextFieldProps) => {
   return (
     <div className="relative pt-2 mt-1">

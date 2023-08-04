@@ -1,13 +1,22 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import axios from "axios";
-import { socket } from "../socket";
+import { io, Socket } from "socket.io-client";
 
 import { ChatMessage } from "@/types/chat";
+import { useSearchParams } from "next/navigation";
 
-export const sendApiSocketChat = async (chatMessage: ChatMessage) => {
+const socket: Socket = io(
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  {
+    // autoConnect: false,
+    path: "/api/socket/io",
+    addTrailingSlash: false,
+  }
+);
+
+const sendApiSocketChat = async (chatMessage: ChatMessage) => {
   try {
     const response = await axios.post("/api/socket/chat", chatMessage, {
       headers: {
@@ -22,17 +31,19 @@ export const sendApiSocketChat = async (chatMessage: ChatMessage) => {
 };
 
 const Room = () => {
-  const { data } = useSession();
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const formRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const searchParams = useSearchParams();
+  const [username, setUsername] = useState<string>("");
+
   const enterChatRoom = async () => {
     await sendApiSocketChat({
       username: "CHAT BOT",
-      message: `${data?.user?.name} entered chat room.`,
+      message: `${username} entered chat room.`,
     });
   };
 
@@ -41,6 +52,13 @@ const Room = () => {
 
     return response;
   };
+
+  useEffect(() => {
+    if (searchParams) {
+      const username = searchParams.get("username");
+      setUsername(username || "");
+    }
+  }, [searchParams, setUsername]);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -70,7 +88,7 @@ const Room = () => {
     return () => {
       socket.off("join_room");
     };
-  }, [setMessages]);
+  }, [messages, setMessages]);
 
   useEffect(() => {
     socket.on("message", (message: ChatMessage) => {
@@ -82,20 +100,24 @@ const Room = () => {
     return () => {
       socket.off("message");
     };
-  }, [setMessages]);
+  }, [messages, setMessages]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] max-w-[640px] min-w-[360px]">
       <div className="sticky top-0 w-full py-4 text-black bg-blue-300 border border-blue-600 rounded-lg bg-opacity-30">
         <h1 className="text-2xl font-semibold text-center">Chat Room</h1>
       </div>
-      <div className="flex flex-col w-full gap-2">
-        {messages.map((msg) =>
-          msg.username === "CHAT BOT" ? (
+
+      {messages.map((msg, idx) => (
+        <div
+          key={`${msg.username}_${idx}`}
+          className="flex flex-col w-full gap-2"
+        >
+          {msg.username === "CHAT BOT" ? (
             <div className="block text-center text-xs text-[#4E88BB]">
               {msg.message}
             </div>
-          ) : msg.username === data?.user?.name ? (
+          ) : msg.username === username ? (
             <div className="max-w-[80%] flex flex-col self-start gap-1">
               <div className="text-xs text-[#4E88BB]">{msg.username}</div>
               <div className="bg-[#3C86E3] p-2 text-white font-light rounded-lg">
@@ -109,9 +131,10 @@ const Room = () => {
                 {msg.message}
               </div>
             </div>
-          )
-        )}
-      </div>
+          )}
+        </div>
+      ))}
+
       <div className="w-full px-4 py-2 mt-auto bg-blue-300 border border-blue-600 rounded-lg bg-opacity-30">
         <form
           ref={formRef}
@@ -119,7 +142,7 @@ const Room = () => {
             e.preventDefault();
             if (textareaRef.current && !!textareaRef.current.value) {
               sendMessage({
-                username: data?.user?.name || "",
+                username: username || "",
                 message: textareaRef.current.value,
               });
               textareaRef.current.value = "";

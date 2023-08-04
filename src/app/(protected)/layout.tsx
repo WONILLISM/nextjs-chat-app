@@ -11,9 +11,9 @@ const ProtectedLayout = ({ children }: { children: ReactNode }) => {
     },
   });
 
-  // if (status === "loading") {
-  //   return <div>Loading ...</div>;
-  // }
+  if (status === "loading") {
+    return <div>Loading ...</div>;
+  }
 
   return (
     <>

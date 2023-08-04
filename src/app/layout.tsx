@@ -3,7 +3,6 @@ import { Noto_Sans_KR } from "next/font/google";
 
 import "./globals.css";
 import AuthProvider from "@/components/provider/AuthProvider";
-import Header from "@/components/Header";
 
 const notoSansKR = Noto_Sans_KR({ weight: ["300", "500"], subsets: ["latin"] });
 
@@ -21,7 +20,6 @@ export default async function RootLayout({
     <html lang="en">
       <body className={notoSansKR.className}>
         <AuthProvider>
-          {/* <Header /> */}
           <main>{children}</main>
         </AuthProvider>
       </body>
