@@ -14,9 +14,9 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
   const { status } = useSession();
   const router = useRouter();
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+  // if (status === "loading") {
+  //   return <div>Loading...</div>;
+  // }
 
   if (status === "authenticated") {
     router.push("/chat");

@@ -1,21 +1,25 @@
 "use client";
 import React, { ReactNode } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const ProtectedLayout = ({ children }: { children: ReactNode }) => {
-  const { status } = useSession();
-  const router = useRouter();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/");
+    },
+  });
 
-  if (status === "loading") {
-    return <div>Loading ...</div>;
-  }
+  // if (status === "loading") {
+  //   return <div>Loading ...</div>;
+  // }
 
-  if (status === "unauthenticated") {
-    router.push("/");
-  }
-
-  return <>{children}</>;
+  return (
+    <>
+      <button onClick={() => signOut()}>signout</button> {children}
+    </>
+  );
 };
 
 export default ProtectedLayout;
