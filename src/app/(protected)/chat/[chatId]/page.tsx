@@ -13,6 +13,7 @@ const socket: Socket = io(
     // autoConnect: false,
     path: "/api/socket/io",
     addTrailingSlash: false,
+    withCredentials: true,
   }
 );
 
