@@ -23,7 +23,7 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       origin: "https://nextjs-chat-app-jet.vercel.app",
       methods: ["GET", "POST"],
       // WARNING: in that case, there is no fallback to long-polling
-      transports: ["websocket"], // or [ "websocket", "polling" ] (the order matters)
+      transports: ["websocket", "polling"], // or [ "websocket", "polling" ] (the order matters)
     });
 
     // Event handler for client connections
