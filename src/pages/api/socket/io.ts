@@ -22,7 +22,6 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       addTrailingSlash: false,
       origin: "https://nextjs-chat-app-jet.vercel.app/",
       methods: ["GET", "POST"],
-      credentials: true,
     });
 
     // Event handler for client connections
