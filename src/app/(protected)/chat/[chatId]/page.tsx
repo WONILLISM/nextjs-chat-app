@@ -7,15 +7,6 @@ import { io, Socket } from "socket.io-client";
 import { ChatMessage } from "@/types/chat";
 import { useSearchParams } from "next/navigation";
 
-const socket: Socket = io(
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  {
-    // autoConnect: false,
-    path: "/api/socket/io",
-    addTrailingSlash: false,
-  }
-);
-
 const sendApiSocketChat = async (chatMessage: ChatMessage) => {
   try {
     const response = await axios.post("/api/socket/chat", chatMessage, {
@@ -54,30 +45,21 @@ const Room = () => {
   };
 
   useEffect(() => {
-    if (searchParams) {
-      const username = searchParams.get("username");
-      setUsername(username || "");
-    }
-  }, [searchParams, setUsername]);
+    const socket: Socket = io(
+      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+      {
+        // autoConnect: false,
+        path: "/api/socket/io",
+        addTrailingSlash: false,
+      }
+    );
 
-  useEffect(() => {
     socket.on("connect", () => {
       console.log("SOCKET CONNECTED!", socket.id);
 
       setIsConnected(true);
     });
-    return () => {
-      socket.off("connect");
-    };
-  }, [setIsConnected]);
 
-  useEffect(() => {
-    if (isConnected) {
-      enterChatRoom();
-    }
-  }, [isConnected]);
-
-  useEffect(() => {
     socket.on("join_room", (message: ChatMessage) => {
       console.log(`${message.username} ENTERED CHAT ROOM.`);
 
@@ -85,12 +67,6 @@ const Room = () => {
       setMessages([...messages]);
     });
 
-    return () => {
-      socket.off("join_room");
-    };
-  }, [messages, setMessages]);
-
-  useEffect(() => {
     socket.on("message", (message: ChatMessage) => {
       console.log("SEND MESSAGE: ", message.message);
       messages.push(message);
@@ -98,9 +74,24 @@ const Room = () => {
     });
 
     return () => {
+      socket.off("connect");
+      socket.off("join_room");
       socket.off("message");
     };
-  }, [messages, setMessages]);
+  }, []);
+
+  useEffect(() => {
+    if (searchParams) {
+      const username = searchParams.get("username");
+      setUsername(username || "");
+    }
+  }, [searchParams, setUsername]);
+
+  useEffect(() => {
+    if (isConnected) {
+      enterChatRoom();
+    }
+  }, [isConnected]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] max-w-[640px] min-w-[360px]">
