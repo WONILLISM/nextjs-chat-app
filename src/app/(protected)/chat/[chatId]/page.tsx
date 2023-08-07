@@ -31,19 +31,6 @@ const Room = () => {
 
   const { data } = useSession();
 
-  const enterChatRoom = async () => {
-    await sendApiSocketChat({
-      username: "CHAT BOT",
-      message: `${data.user?.name} entered chat room.`,
-    });
-  };
-
-  const sendMessage = async (chat: ChatMessage) => {
-    const response = await sendApiSocketChat(chat);
-
-    return response;
-  };
-
   useEffect(() => {
     const socket: Socket = io(
       process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
@@ -87,6 +74,19 @@ const Room = () => {
   }, [isConnected]);
 
   if (!data) return <div>not data.</div>;
+
+  const enterChatRoom = async () => {
+    await sendApiSocketChat({
+      username: "CHAT BOT",
+      message: `${data.user?.name} entered chat room.`,
+    });
+  };
+
+  const sendMessage = async (chat: ChatMessage) => {
+    const response = await sendApiSocketChat(chat);
+
+    return response;
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] max-w-[640px] min-w-[360px]">
