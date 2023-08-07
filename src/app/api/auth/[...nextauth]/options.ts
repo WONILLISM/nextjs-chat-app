@@ -12,7 +12,7 @@ export const options: NextAuthOptions = {
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    jwt: async ({ token, account, user }) => {
+    jwt: async ({ token, account, user, trigger, session }) => {
       // 초기 로그인시 User 정보를 가공하여 반환
       if (account && user) {
         return {
@@ -28,6 +28,10 @@ export const options: NextAuthOptions = {
           ...token,
           error: "not found access token expires",
         };
+      }
+
+      if (trigger === "update") {
+        return { ...token, ...session };
       }
 
       const nowTime = Math.round(Date.now() / 1000);

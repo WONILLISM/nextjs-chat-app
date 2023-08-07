@@ -6,6 +6,7 @@ import { io, Socket } from "socket.io-client";
 
 import { ChatMessage } from "@/types/chat";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const sendApiSocketChat = async (chatMessage: ChatMessage) => {
   try {
@@ -28,13 +29,16 @@ const Room = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const searchParams = useSearchParams();
-  const [username, setUsername] = useState<string>("");
+  const { data } = useSession();
+  // const searchParams = useSearchParams();
+  // const [username, setUsername] = useState<string>("");
+
+  if (!data) return <div>not data.</div>;
 
   const enterChatRoom = async () => {
     await sendApiSocketChat({
       username: "CHAT BOT",
-      message: `${username} entered chat room.`,
+      message: `${data.user?.name} entered chat room.`,
     });
   };
 
@@ -80,12 +84,12 @@ const Room = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (searchParams) {
-      const username = searchParams.get("username");
-      setUsername(username || "");
-    }
-  }, [searchParams, setUsername]);
+  // useEffect(() => {
+  //   if (searchParams) {
+  //     const username = searchParams.get("username");
+  //     setUsername(username || "");
+  //   }
+  // }, [searchParams, setUsername]);
 
   useEffect(() => {
     if (isConnected) {
@@ -108,7 +112,7 @@ const Room = () => {
             <div className="block text-center text-xs text-[#4E88BB]">
               {msg.message}
             </div>
-          ) : msg.username === username ? (
+          ) : msg.username === data.user?.name ? (
             <div className="max-w-[80%] flex flex-col self-start gap-1">
               <div className="text-xs text-[#4E88BB]">{msg.username}</div>
               <div className="bg-[#3C86E3] p-2 text-white font-light rounded-lg">
@@ -133,7 +137,7 @@ const Room = () => {
             e.preventDefault();
             if (textareaRef.current && !!textareaRef.current.value) {
               sendMessage({
-                username: username || "",
+                username: data.user?.name || "",
                 message: textareaRef.current.value,
               });
               textareaRef.current.value = "";

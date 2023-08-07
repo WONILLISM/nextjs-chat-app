@@ -4,7 +4,7 @@ import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 const ProtectedLayout = ({ children }: { children: ReactNode }) => {
-  const { data, status } = useSession({
+  const { status } = useSession({
     required: true,
     onUnauthenticated() {
       redirect("/");
@@ -15,7 +15,6 @@ const ProtectedLayout = ({ children }: { children: ReactNode }) => {
     return <div>Loading ...</div>;
   }
 
-  console.log(data);
   return (
     <>
       <button onClick={() => signOut()}>signout</button> {children}

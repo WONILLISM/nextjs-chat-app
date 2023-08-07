@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import TextField from "@/components/TextField";
 
@@ -9,12 +9,33 @@ import {
   MdCheck as MdCheckIcon,
 } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Chat = () => {
   const router = useRouter();
+  const { data, update } = useSession();
 
-  const [modifyUsername, setModifyUsername] = useState<boolean>(true);
+  const [modifyUsername, setModifyUsername] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
+
+  const updateUsername = async () => {
+    await update({
+      ...data,
+      user: {
+        ...data?.user,
+        name: username,
+      },
+    });
+    setModifyUsername(false);
+  };
+
+  if (!data) return <div>not data.</div>;
+
+  useEffect(() => {
+    if (data) {
+      setUsername(data.user?.name || "");
+    }
+  }, [data]);
 
   return (
     <>
@@ -38,16 +59,14 @@ const Chat = () => {
               className="p-2 text-white bg-blue-500 rounded-full disabled:bg-gray-400"
               type="button"
               disabled={!!!username}
-              onClick={() => {
-                setModifyUsername(false);
-              }}
+              onClick={updateUsername}
             >
               <MdCheckIcon className="text-2xl" />
             </button>
           </>
         ) : (
           <>
-            <div>Hi, {username}!</div>
+            <div>Hi, {data.user?.name}!</div>
             <button
               type="button"
               onClick={() => {
@@ -64,9 +83,7 @@ const Chat = () => {
         className="px-4 py-2 text-white bg-blue-700 rounded-lg shadow-md disabled:bg-gray-400"
         disabled={modifyUsername}
         onClick={() => {
-          if (!!username) {
-            router.push(`/chat/1?username=${username}`);
-          }
+          router.push(`/chat/1`);
         }}
       >
         Enter
