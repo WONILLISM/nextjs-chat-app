@@ -2,14 +2,11 @@
 
 import React from "react";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import googleLogo from "../../../../public/google_logo.png";
 
 const Login = () => {
-  const session = useSession();
-  console.log(session);
-
   const handleSignInButtonClick = () => {
     signIn("google", { callbackUrl: "/chat" });
   };

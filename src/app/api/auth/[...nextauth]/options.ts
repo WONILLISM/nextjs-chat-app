@@ -1,6 +1,7 @@
-import { NextAuthOptions } from "next-auth";
+import axios from "axios";
+import { type NextAuthOptions, type TokenSet, type User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -8,21 +9,85 @@ export const options: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET_KEY || "",
     }),
-    // CredentialsProvider({
-    //   name: "Credentials",
-    //   credentials: {
-    //     username: {
-    //       label: "username",
-    //       type:"text",
-    //       placeholder:"",
-    //     },
-    //   },
-    //   async authorize(credentials) {
-
-    //   }
-    // })
   ],
-  // pages: {
-  //   signIn: "/signin",
-  // },
+  session: { strategy: "jwt" },
+  callbacks: {
+    jwt: async ({ token, account, user }) => {
+      // 초기 로그인시 User 정보를 가공하여 반환
+      if (account && user) {
+        return {
+          accessToken: account.access_token,
+          accessTokenExpires: account.expires_at,
+          refreshToken: account.refresh_token,
+          user,
+        };
+      }
+
+      if (!token.accessTokenExpires) {
+        return {
+          ...token,
+          error: "not found access token expires",
+        };
+      }
+
+      const nowTime = Math.round(Date.now() / 1000);
+      const shouldRefreshTime = token.accessTokenExpires - 10 * 60 - nowTime;
+      // 토큰이 만료되지 않았을 때, 기존 토큰 반환
+      if (shouldRefreshTime > 0) {
+        return token;
+      }
+
+      return refreshAccessToken(token);
+    },
+
+    async session({ session, token }) {
+      session.user = token.user as User;
+      session.accessToken = token.accessToken as string;
+      session.accessTokenExpires = token.accessTokenExpires as number;
+      session.error = token.error;
+      return session;
+    },
+  },
+};
+
+const refreshAccessToken = async (token: JWT) => {
+  try {
+    const url = "https://oauth2.googleapis.com/token";
+
+    const params = {
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET_KEY,
+      grant_type: "refresh_token",
+      refresh_token: token.refreshToken,
+    };
+
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
+
+    const res = await axios.post(url, {
+      headers,
+      params,
+    });
+
+    const refreshedTokens: TokenSet = await res.data;
+
+    if (res.status !== 200) {
+      throw refreshedTokens;
+    }
+
+    return {
+      ...token,
+      accessToken: refreshedTokens.access_token,
+      accessTokenExpires:
+        Math.round(Date.now() / 1000) + (refreshedTokens.expires_in as number),
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      ...token,
+      error,
+    };
+  }
 };
