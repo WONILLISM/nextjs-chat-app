@@ -29,13 +29,13 @@ const Chat = () => {
     setModifyUsername(false);
   };
 
-  if (!data) return <div>not data.</div>;
-
   useEffect(() => {
     if (data) {
       setUsername(data.user?.name || "");
     }
   }, [data]);
+
+  if (!data) return <div>not data.</div>;
 
   return (
     <>

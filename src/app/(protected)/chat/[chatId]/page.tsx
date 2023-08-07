@@ -30,10 +30,6 @@ const Room = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { data } = useSession();
-  // const searchParams = useSearchParams();
-  // const [username, setUsername] = useState<string>("");
-
-  if (!data) return <div>not data.</div>;
 
   const enterChatRoom = async () => {
     await sendApiSocketChat({
@@ -84,18 +80,13 @@ const Room = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (searchParams) {
-  //     const username = searchParams.get("username");
-  //     setUsername(username || "");
-  //   }
-  // }, [searchParams, setUsername]);
-
   useEffect(() => {
     if (isConnected) {
       enterChatRoom();
     }
   }, [isConnected]);
+
+  if (!data) return <div>not data.</div>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] max-w-[640px] min-w-[360px]">
