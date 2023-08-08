@@ -113,3 +113,7 @@
 <img width="3278" alt="Untitled" src="https://github.com/WONILLISM/nextjs-chat-app/assets/47653005/c98e5fe6-e79e-40e4-88c8-d9eaf79a15e5">
 
 
+### Socket.io Flow
+<img width="1222" alt="Untitled (1)" src="https://github.com/WONILLISM/nextjs-chat-app/assets/47653005/01decd54-6860-4327-99fd-8bce2bf98dc6">
+
+
