@@ -23,7 +23,7 @@
 **Deploy**  
 <img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=Vercel&logoColor=white" />
 
-## 🙋 프로젝트 실행 방법
+### 🙋 프로젝트 실행 방법
 
 터미널에서 아래를 순서대로 입력해주세요.
 
@@ -38,9 +38,17 @@
 ```
 
 
-# 기능 설명
+## 사용 기술
+**next-auth** : 인증 / 인가 및 소셜 로그인 관리  
 
-## 로그인
+**OAuth + JWT** : 소셜 로그인을 통하여 로그인한 사용자만 서비스를 사용가능 하도록하고, JWT 방식을 사용해 유효한 회원인지 확인  
+
+**Socket.io** : 실시간 양방향 통신을 위한 `socket.io`사용
+
+**Prisma + Sqlite** : 유저 목록과 해당 유저의 채팅 내용 및 채팅방을 저장하기 위한 db(아직 미구현)
+
+
+### 로그인
 
 - `next_auth` 사용
 
