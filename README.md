@@ -37,6 +37,67 @@
 > yarn run start
 ```
 
+### 폴더구조
+```
+├── prisma
+│   ├── dev.db
+│   ├── dev.db-journal
+│   ├── migrations
+│   │   ├── 20230805064714_init
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   └── schema.prisma
+├── public
+│   ├── Loading.gif
+│   ├── auth_img.jpeg
+│   └── google_logo.png
+├── src
+│   ├── app
+│   │   ├── (protected)
+│   │   │   ├── chat
+│   │   │   │   ├── [chatId]
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   └── page.tsx
+│   │   │   └── layout.tsx
+│   │   ├── (public)
+│   │   │   ├── layout.tsx
+│   │   │   ├── login
+│   │   │   │   └── page.tsx
+│   │   │   └── register
+│   │   │       └── page.tsx
+│   │   ├── api
+│   │   │   └── auth
+│   │   │       └── [...nextauth]
+│   │   │           ├── options.ts
+│   │   │           └── route.ts
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── Loading.tsx
+│   │   ├── TextField.tsx
+│   │   └── provider
+│   │       └── AuthProvider.tsx
+│   ├── lib
+│   │   └── prisma.ts
+│   ├── pages
+│   │   └── api
+│   │       └── socket
+│   │           ├── chat.ts
+│   │           └── io.ts
+│   └── types
+│       ├── chat.ts
+│       └── next.ts
+├── tailwind.config.js
+├── tsconfig.json
+├── yarn-error.log
+└── yarn.lock
+```
+
 
 ## 사용 기술
 **next-auth** : 인증 / 인가 및 소셜 로그인 관리  
