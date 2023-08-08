@@ -1,9 +1,14 @@
 # Next.JS Chat App
 
-## ✅ Intro
+[기술 스택](#기술-스택)  
+[프로젝트 실행 방법](#프로젝트-실행-방법)  
+[폴더구조](#폴더구조)  
+[사용 기술](#사용-기술)
+
+## Intro
 `NextJS 13`과 `socket.io`를 이용한 채팅 서비스
 
-### 📚 기술 스택
+### 기술 스택
 
 **Laguage & Environment**  
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" /><img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" /><img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat&logo=javascript&logoColor=black" /><img src="https://img.shields.io/badge/typescript-3178C6?style=flat&logo=typescript&logoColor=white" />  
@@ -23,7 +28,7 @@
 **Deploy**  
 <img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=Vercel&logoColor=white" />
 
-### 🙋 프로젝트 실행 방법
+### 프로젝트 실행 방법
 
 터미널에서 아래를 순서대로 입력해주세요.
 
