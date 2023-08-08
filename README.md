@@ -17,7 +17,11 @@
 <img src="https://img.shields.io/badge/Next.js-v13.4.12-000000?style=flat&logo=nextdotjs&logoColor=white" /> 
 
 **Tools**  
-<img src="https://img.shields.io/badge/VisualStudioCode-007ACC?style=flat&logo=VisualStudioCode&logoColor=white" /><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white" />
+<img src="https://img.shields.io/badge/VisualStudioCode-007ACC?style=flat&logo=VisualStudioCode&logoColor=white" />
+<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white" />
+
+**Deploy**  
+<img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=Vercel&logoColor=white" />
 
 ## 🙋 프로젝트 실행 방법
 
