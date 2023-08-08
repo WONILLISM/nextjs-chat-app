@@ -20,7 +20,6 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       path: path,
       // @ts-ignore
       addTrailingSlash: false,
-      origin: "https://nextjs-chat-app-jet.vercel.app",
       methods: ["GET", "POST"],
     });
 
