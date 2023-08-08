@@ -3,7 +3,8 @@
 [기술 스택](#기술-스택)  
 [프로젝트 실행 방법](#프로젝트-실행-방법)  
 [폴더구조](#폴더구조)  
-[사용 기술](#사용-기술)
+[사용 기술](#사용-기술)  
+[Trouble Shooting](#Trouble-Shooting)
 
 ## Intro
 `NextJS 13`과 `socket.io`를 이용한 채팅 서비스
@@ -120,5 +121,15 @@
 
 ### Socket.io Flow
 <img width="1222" alt="Untitled (1)" src="https://github.com/WONILLISM/nextjs-chat-app/assets/47653005/01decd54-6860-4327-99fd-8bce2bf98dc6">
+
+
+## Trouble Shooting
+### Trouble
+1. `app` 디렉토리를 이용한 socket.io 구현 불가능
+2. 배포시 socket.io 에러 발생
+
+### Shooting
+1. 임시 해결책으로 NextJS 13 이전 버전 방식인 `page` 방식을 이용하여 해결, 13버전 업데이트 후 다시 문제 해결 예정
+2. 아직 잘모르겠음...
 
 
