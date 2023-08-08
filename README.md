@@ -10,7 +10,8 @@
 `NextJS 13`과 `socket.io`를 이용한 채팅 서비스  
 
 
-![chat_app](https://github.com/WONILLISM/nextjs-chat-app/assets/47653005/5c33b6ac-7d16-417b-a176-71123481749a)
+![chat_app](https://github.com/WONILLISM/nextjs-chat-app/assets/47653005/dc8f69a0-6662-4be8-8d74-5de040a9bef9)
+
 
 
 ### 기술 스택
