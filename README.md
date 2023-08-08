@@ -109,7 +109,7 @@
 **Prisma + Sqlite** : 유저 목록과 해당 유저의 채팅 내용 및 채팅방을 저장하기 위한 db(아직 미구현)
 
 
-### 로그인
+### 로그인 Flow
+<img width="3278" alt="Untitled" src="https://github.com/WONILLISM/nextjs-chat-app/assets/47653005/c98e5fe6-e79e-40e4-88c8-d9eaf79a15e5">
 
-- `next_auth` 사용
 
