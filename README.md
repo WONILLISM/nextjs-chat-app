@@ -7,7 +7,9 @@
 [Trouble Shooting](#Trouble-Shooting)
 
 ## Intro
-`NextJS 13`과 `socket.io`를 이용한 채팅 서비스
+`NextJS 13`과 `socket.io`를 이용한 채팅 서비스  
+![image](https://github.com/WONILLISM/nextjs-chat-app/assets/47653005/1986272b-5fbe-406e-9b59-eb674694aca7)
+
 
 ### 기술 스택
 
