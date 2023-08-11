@@ -1,3 +1,4 @@
+import prisma from "@/lib/prisma";
 import axios from "axios";
 import { type NextAuthOptions, type TokenSet, type User } from "next-auth";
 import { JWT } from "next-auth/jwt";
@@ -12,6 +13,26 @@ export const options: NextAuthOptions = {
   ],
   session: { strategy: "jwt" },
   callbacks: {
+    signIn: async ({ user, account, profile, email, credentials }) => {
+      if (!user || !user.email) {
+        return false;
+      }
+      const findUser = await prisma.user.findFirst({
+        where: { email: user.email },
+      });
+      console.log(findUser);
+
+      if (!findUser) {
+        await prisma.user.create({
+          data: {
+            email: user.email,
+            name: user.name,
+          },
+        });
+        return "/login";
+      }
+      return true;
+    },
     jwt: async ({ token, account, user, trigger, session }) => {
       // 초기 로그인시 User 정보를 가공하여 반환
       if (account && user) {
@@ -44,7 +65,7 @@ export const options: NextAuthOptions = {
       return refreshAccessToken(token);
     },
 
-    async session({ session, token }) {
+    session: async ({ session, token }) => {
       session.user = token.user as User;
       session.accessToken = token.accessToken as string;
       session.accessTokenExpires = token.accessTokenExpires as number;
