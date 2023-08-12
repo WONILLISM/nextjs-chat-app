@@ -15,7 +15,7 @@ export const options: NextAuthOptions = {
   callbacks: {
     signIn: async ({ user, account, profile, email, credentials }) => {
       if (!user || !user.email) {
-        return false;
+        return "/register";
       }
       const findUser = await prisma.user.findFirst({
         where: { email: user.email },
