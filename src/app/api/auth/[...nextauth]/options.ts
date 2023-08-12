@@ -13,24 +13,24 @@ export const options: NextAuthOptions = {
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    // signIn: async ({ user, account, profile, email, credentials }) => {
-    // if (!user || !user.email) {
-    //   return "/register";
-    // }
-    // const findUser = await prisma.user.findFirst({
-    //   where: { email: user.email },
-    // });
-    // if (!findUser) {
-    //   await prisma.user.create({
-    //     data: {
-    //       email: user.email,
-    //       name: user.name,
-    //     },
-    //   });
-    //   return "/login";
-    // }
-    // return true;
-    // },
+    signIn: async ({ user, account, profile, email, credentials }) => {
+      if (!user || !user.email) {
+        return "/register";
+      }
+      const findUser = await prisma.user.findFirst({
+        where: { email: user.email },
+      });
+      if (!findUser) {
+        await prisma.user.create({
+          data: {
+            email: user.email,
+            name: user.name,
+          },
+        });
+        return "/login";
+      }
+      return true;
+    },
     jwt: async ({ token, account, user, trigger, session }) => {
       // 초기 로그인시 User 정보를 가공하여 반환
       if (account && user) {
