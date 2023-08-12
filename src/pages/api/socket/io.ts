@@ -20,7 +20,7 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       path: path,
       // @ts-ignore
       addTrailingSlash: false,
-      methods: ["GET", "POST"],
+      // methods: ["GET", "POST"],
     });
 
     // Event handler for client connections
