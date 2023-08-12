@@ -20,7 +20,6 @@ export const options: NextAuthOptions = {
       const findUser = await prisma.user.findFirst({
         where: { email: user.email },
       });
-      console.log(findUser);
 
       if (!findUser) {
         await prisma.user.create({
